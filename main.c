@@ -77,7 +77,7 @@ int main() {
 
             is_correctYear(day, month);
 
-        } while (validDate == 0);
+        } while (validDate == false);
 
         printf("\n\nErneute Eingabe? (j/n)");
         response = ' ';
