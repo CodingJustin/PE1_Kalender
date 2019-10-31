@@ -5,10 +5,9 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+
+//Funktion die testet, ob das eingegebene Jahr ein Schaltjahr ist.
 bool schaltjahr = false;
-bool validDate = true;
-
-
 void is_leapYear(unsigned year) {
     if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
         printf("%d ist ein Schaltjahr.\n", year);
@@ -21,35 +20,55 @@ void is_leapYear(unsigned year) {
     }
 }
 
-void is_correctYear(unsigned day, unsigned month) {
+//Funktion die testet, ob das eigegebene Datum korrekt ist.
+bool validDate = true;
+void is_correctDate(unsigned day, unsigned month) {
     if(month >= 1 && month <= 12) {
             if((day>=1 && day<=31) && (month==1 || month==3 || month==5 || month==7 || month==8 || month==10 || month==12)) {
-                printf("Datum ist gueltig.\n");
+                printf("Eingegebenes Datum ist gueltig.\n");
                 validDate = true;
             }
             else if((day>=1 && day<=30) && (month==4 || month==6 || month==9 || month==11)) {
-                printf("Datum ist gueltig.\n");
+                printf("Eingegebenes Datum ist gueltig.\n");
                 validDate = true;
             }
             else if((day>=1 && day<=28) && (month==2)) {
-                printf("Datum ist gueltig.\n");
+                printf("Eingegebenes Datum ist gueltig.\n");
                 validDate = true;
             }
             else if(day==29 && month==2 && schaltjahr == true) {
-                printf("Datum ist gueltig.\n");
+                printf("Eingegebenes Datum ist gueltig.\n");
                 validDate = true;
             }
             else {
-                printf("Tag ist ungueltig.\n");
+                printf("Eingegebener Tag ist ungueltig.\n");
                 validDate = false;
             }
     }
     else {
-        printf("Monat ist ungueltig.\n");
+        printf("Eingegebener Monat ist ungueltig.\n");
         validDate = false;
     }
-
 }
+
+//Funktion zur Berechnung der Tagesnummer im Jahr
+int dayNum, i, diffNum;
+unsigned monthLength[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 21};
+unsigned day_Number(unsigned day, unsigned month, unsigned year) {
+    dayNum = 0;
+    diffNum = 0;
+    if(schaltjahr == true) {
+        monthLength[1] = 29;
+    }
+    for(i = 0; i < month; i++) {
+        dayNum = monthLength[i] + dayNum;
+    }
+    diffNum = monthLength[month - 1] - day;
+    dayNum = dayNum - diffNum;
+
+    printf("Der %d.%d ist der %d-te Tag im Jahr %d.", day, month, dayNum, year);
+}
+
 
 
 int main() {
@@ -63,11 +82,14 @@ int main() {
     do {
         do {
             do {
+                day = 0;
+                month = 0;
+                year = 0;
                 printf("Geben Sie ein Datum ein [TT.MM.JJJJ]: ");
                 scanf("%d.%d.%d", &day, &month, &year);
                 while (getchar() != '\n');
                 if (day == 0 || month == 0 || year == 0) {
-                    printf("\nSie haben ein ungueltiges Datum eingegeben. Bitte korrigieren Sie ihre Eingabe.\n");
+                    printf("\nSie haben ein ungueltiges Datum eingegeben.\nBitte korrigieren Sie ihre Eingabe.\n");
                 }
             } while(day == 0 || month == 0 || year == 0);
 
@@ -75,9 +97,11 @@ int main() {
 
             is_leapYear(year);
 
-            is_correctYear(day, month);
+            is_correctDate(day, month);
 
         } while (validDate == false);
+
+        day_Number(day, month, year);
 
         printf("\n\nErneute Eingabe? (j/n)");
         response = ' ';
