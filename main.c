@@ -1,6 +1,4 @@
-/*TODO: 1.Berechnen Sie den Wochentag des 1. Januars des gegebenen Jahres.
-        (Zur Vereinfachung beschränken Sie ihr Programm auf Jahre des 20. oder 21. Jahrhunderts, also zwischen 1901 und 2100.)
-        2.Ermitteln Sie den Wochentag des gegebenen Tags.
+/*TODO: 2.Ermitteln Sie den Wochentag des gegebenen Tags.
         3.Zusatzaufgabe: Berechnen Sie, in welcher Kalenderwoche der gegebene Tag ist (nach ISO 8601).*/
 
 #define _CRT_SECURE_NO_WARNINGS 1
@@ -10,7 +8,7 @@
 #include <stdbool.h>
 
 
-//Funktion die testet, ob das eingegebene Jahr ein Schaltjahr ist.
+//Funktion die testet, ob das eingegebene Jahr ein Schaltjahr ist. (AUFGABE 1)
 bool is_leapYear(unsigned year) {
     if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
         return true;
@@ -19,36 +17,40 @@ bool is_leapYear(unsigned year) {
         return false;
     }
 }
-
-//Funktion die testet, ob das eigegebene Datum korrekt ist.
-bool is_correctDate(unsigned day, unsigned month, unsigned year) {
+//Funktion die testet, ob das eigegebene Datum korrekt ist. (AUFGABE 2)
+bool validDate;
+void is_correctDate(unsigned day, unsigned month, unsigned year) {
     if(month >= 1 && month <= 12) {
-        if((day>=1 && day<=31) && (month==1 || month==3 || month==5 || month==7 || month==8 || month==10 || month==12)) {
-            return true;
+        if((day >= 1 && day <= 31) && (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)) {
+            validDate = true;
         }
-        else if((day>=1 && day<=30) && (month==4 || month==6 || month==9 || month==11)) {
-            return true;
+        else if((day >= 1 && day <= 30) && (month == 4 || month == 6 || month == 9 || month == 11)) {
+            validDate = true;
         }
-        else if((day>=1 && day<=28) && (month==2)) {
-            return true;
+        else if((day >= 1 && day <= 28) && (month == 2)) {
+            validDate = true;
         }
-        else if(day==29 && month==2 && is_leapYear(year) == true) {
-            return true;
+        else if(day == 29 && month == 2 && is_leapYear(year) == true) {
+            validDate = true;
         }
         else {
-            //printf("\nIhr eingegebener Tag ist ungueltig.\n");
-            return false;
+            printf("\nIhr eingegebener Tag ist ungueltig.\nBitte korrigieren Sie Ihre Eingabe.\n");
+            validDate = false;
         }
     }
+    else if(day > 31 && month > 12) {
+        printf("\nIhr eingegebener Tag und Monat sind ungueltig.\nBitte korrigieren Sie Ihre Eingabe.\n");
+        validDate = false;
+    }
     else {
-        //printf("\nIhr eingegebener Monat ist ungueltig.\n");
-        return false;
+        printf("\nIhr eingegebener Monat ist ungueltig.\nBitte korrigieren Sie Ihre Eingabe.\n");
+        validDate = false;
     }
 }
 
-//Funktion zur Berechnung der Tagesnummer im Jahr
-unsigned monthLength[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 21};
-unsigned day_Number(unsigned day, unsigned month, unsigned year) {
+//Methode zur Berechnung der Tagesnummer im Jahr. (AUFGABE 3)
+void day_Number(unsigned day, unsigned month, unsigned year) {
+    unsigned monthLength[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 21};
     int dayNum, i, diffNum;
     dayNum = 0;
     diffNum = 0;
@@ -64,7 +66,7 @@ unsigned day_Number(unsigned day, unsigned month, unsigned year) {
     printf("\nDer %d.%d ist der %d-te Tag im Jahr %d.\n", day, month, dayNum, year);
 }
 
-//Funktion zur Berechnung des Wochentages des 1.1 des jeweiligen Jahres.
+//Methode zur Berechnung des Wochentages des 1.1 des jeweiligen Jahres. (AUFGABE 4)
 void firstweekdayYear(unsigned year) {
     unsigned int i, rest, weekday = 1; // 1 = Dienstag
     for(i = 1901; i <= year; i++) {
@@ -119,9 +121,11 @@ int main() {
                     printf("\nSie haben ein ungueltiges Datum eingegeben.\nBitte korrigieren Sie ihre Eingabe.\n");
                 }
             } while(day == 0 || month == 0 || year == 0);
+
             printf("----------------------------------------");
             printf("\nIhr eingegebenes Datum lautet: %d.%d.%d\n", day, month, year);
 
+            //Aufgabe 1 (Schaltjahr)
             is_leapYear(year);
             if(is_leapYear(year) == true) {
                 printf("%d ist ein Schaltjahr.", year);
@@ -129,22 +133,22 @@ int main() {
             else {
                 printf("%d ist kein Schaltjahr.", year);
             }
-
+            //Aufgabe 2 (Korrektes Datum)
             is_correctDate(day, month, year);
-            if(is_correctDate(day, month, year) == true) {
+            if(validDate == true) {
                 printf("\nIhr eingegebenes Datum ist gueltig.");
             }
-            else {
-                printf("\nIhr eingegebenes Datum ist ungueltig");
-            }
 
-        } while (is_correctDate(day, month, year) == false);
+        } while (validDate == false);
 
+        //Aufgabe 3 (Nummer des Tages im Jahr)
         day_Number(day, month, year);
 
-        if(year > 1900 && year < 2100) {
+        //Aufgabe 4 (Erster Wochentag des Jahres)
+        if(year > 1900 && year <= 2100) {
             firstweekdayYear(year);
         }
+
         printf("\n----------------------------------------");
         printf("\n\nErneute Eingabe? (j/n)");
         response = ' ';
