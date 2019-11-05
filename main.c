@@ -7,7 +7,7 @@
 #include <stdbool.h>
 
 //Benötigte Arrays
-char dayNames[] [10] = {"Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"};
+char dayNames[] [11] = {"Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"};
 unsigned monthLength[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 21};
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -76,7 +76,7 @@ void day_Number(unsigned day, unsigned month, unsigned year) {
 //---------------------------------------------------------------------------------------------------------------------
 
 //Methode zur Berechnung des Wochentages des 1.1 des jeweiligen Jahres. (AUFGABE 4)
-unsigned int firstweekdayYear(unsigned year) {
+void firstweekdayYear(unsigned year) {
     int i, rest, weekday = 1; // 1 = Dienstag
 
     for(i = 1901; i <= year; i++) {
@@ -101,14 +101,15 @@ unsigned int firstweekdayYear(unsigned year) {
 
 //Methode zur Berechnung des Wochentages des eingegebenen Datums.
 void weekdayDate(unsigned day, unsigned month, unsigned year) {
-    int weekday;
+    unsigned int weekday = 0;
 
     weekday = (day  + ((153 * (month + 12 * ((14 - month) / 12) - 3) + 2) / 5)
-            + (365 * (year + 4800 - ((14 - month) / 12)))
-            + ((year + 4800 - ((14 - month) / 12)) / 4)
-            - ((year + 4800 - ((14 - month) / 12)) / 100)
-            + ((year + 4800 - ((14 - month) / 12)) / 400)
-            - 32045) % 7;
+               + (365 * (year + 4800 - ((14 - month) / 12)))
+               + ((year + 4800 - ((14 - month) / 12)) / 4)
+               - ((year + 4800 - ((14 - month) / 12)) / 100)
+               + ((year + 4800 - ((14 - month) / 12)) / 400)
+               - 32045) % 7;
+
     printf("Der %d.%d.%d ist ein %s.\n", day, month, year, dayNames[weekday]);
 }
 
