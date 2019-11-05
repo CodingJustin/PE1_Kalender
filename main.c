@@ -75,7 +75,7 @@ unsigned int day_Number(unsigned day, unsigned month, unsigned year) {
 
 //---------------------------------------------------------------------------------------------------------------------
 
-//Methode zur Berechnung des Wochentages des 1.1 des jeweiligen Jahres. (AUFGABE 4)
+//Funktion zur Berechnung des Wochentages des 1.1 des jeweiligen Jahres. (AUFGABE 4)
 unsigned int firstweekdayYear(unsigned year) {
     int i, rest, firstWeekday = 1; // 1 = Dienstag
 
@@ -100,7 +100,7 @@ unsigned int firstweekdayYear(unsigned year) {
 
 //---------------------------------------------------------------------------------------------------------------------
 
-//Methode zur Berechnung des Wochentages des eingegebenen Datums.
+//Funktion zur Berechnung des Wochentages des eingegebenen Datums.
 unsigned int weekdayDate(unsigned day, unsigned month, unsigned year) {
     unsigned int weekday = 0;
 
@@ -112,13 +112,24 @@ unsigned int weekdayDate(unsigned day, unsigned month, unsigned year) {
                - 32045) % 7;
 
     return(weekday);
-    printf("Der %d.%d.%d ist ein %s.\n", day, month, year, dayNames[weekday]);
 }
 
-//Funktion zur Berechnung der Kalenderwoche
-void calenderWeek(unsigned day, unsigned month, unsigned year) {
+//Funktion zur Berechnung der Kalenderwoche (ZUSATZAUFGABE)
+/*void calenderWeek(unsigned day, unsigned month, unsigned year) {
+    unsigned int startDay, i, calenderWeek;
 
-}
+    startDay = firstweekdayYear(year);
+    if(startDay >= 3) {
+        for(i = 1; i <= startDay; i++) {
+            calenderWeek++;
+        }
+    }
+    else {
+
+    }
+
+
+}*/
 
 //Start der Main-Funktion
 int main() {
