@@ -57,8 +57,8 @@ void is_correctDate(unsigned day, unsigned month, unsigned year) {
 
 //---------------------------------------------------------------------------------------------------------------------
 
-//Methode zur Berechnung der Tagesnummer im Jahr. (AUFGABE 3)
-void day_Number(unsigned day, unsigned month, unsigned year) {
+//Funktion zur Berechnung der Tagesnummer im Jahr. (AUFGABE 3)
+unsigned int day_Number(unsigned day, unsigned month, unsigned year) {
     int dayNum = 0, diffNum =0, i;
 
     if(is_leapYear(year) == true) {
@@ -70,37 +70,38 @@ void day_Number(unsigned day, unsigned month, unsigned year) {
     diffNum = monthLength[month - 1] - day;
     dayNum = dayNum - diffNum;
 
-    printf("\nDer %d.%d ist der %d-te Tag im Jahr %d.\n", day, month, dayNum, year);
+    return(dayNum);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
 
 //Methode zur Berechnung des Wochentages des 1.1 des jeweiligen Jahres. (AUFGABE 4)
-void firstweekdayYear(unsigned year) {
-    int i, rest, weekday = 1; // 1 = Dienstag
+unsigned int firstweekdayYear(unsigned year) {
+    int i, rest, firstWeekday = 1; // 1 = Dienstag
 
     for(i = 1901; i <= year; i++) {
-        weekday++;
+        firstWeekday++;
         if(is_leapYear(i - 1) == true) {
-            weekday++;
+            firstWeekday++;
         }
-        if(weekday >= 7) {
-            rest = weekday - 7;
-            weekday = 0;
-            weekday = weekday + rest;
+        if(firstWeekday >= 7) {
+            rest = firstWeekday - 7;
+            firstWeekday = 0;
+            firstWeekday = firstWeekday + rest;
         }
     }
-    weekday = weekday - 1;
-    if(weekday < 0) {
-        weekday = 6;
+    firstWeekday = firstWeekday - 1;
+    if(firstWeekday < 0) {
+        firstWeekday = 6;
     }
-    printf("Der Wochentag des 1.1 des Jahres %d ist ein %s.\n", year, dayNames[weekday]);
+    return(firstWeekday);
+    //printf("Der Wochentag des 1.1 des Jahres %d ist ein %s.\n", year, dayNames[weekday]);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
 
 //Methode zur Berechnung des Wochentages des eingegebenen Datums.
-void weekdayDate(unsigned day, unsigned month, unsigned year) {
+unsigned int weekdayDate(unsigned day, unsigned month, unsigned year) {
     unsigned int weekday = 0;
 
     weekday = (day  + ((153 * (month + 12 * ((14 - month) / 12) - 3) + 2) / 5)
@@ -110,7 +111,13 @@ void weekdayDate(unsigned day, unsigned month, unsigned year) {
                + ((year + 4800 - ((14 - month) / 12)) / 400)
                - 32045) % 7;
 
+    return(weekday);
     printf("Der %d.%d.%d ist ein %s.\n", day, month, year, dayNames[weekday]);
+}
+
+//Funktion zur Berechnung der Kalenderwoche
+void calenderWeek(unsigned day, unsigned month, unsigned year) {
+
 }
 
 //Start der Main-Funktion
@@ -119,6 +126,7 @@ int main() {
     //Benötigte Variablen
     unsigned day, month, year;
     char response;
+    unsigned int dayNum, firstWeekday, weekday;
 
     printf("\n\nKalender-Programm\n");
     printf("----------------------------------------");
@@ -158,15 +166,18 @@ int main() {
         } while (validDate == false);
 //---------------------------------------------------------------------------------------------------------------------
         //Aufgabe 3 (Nummer des Tages im Jahr)
-        day_Number(day, month, year);
+        dayNum = day_Number(day, month, year);
+        printf("\nDer %d.%d ist der %d-te Tag im Jahr %d.\n", day, month, dayNum, year);
 //---------------------------------------------------------------------------------------------------------------------
         //Aufgabe 4 (Erster Wochentag des Jahres)
         if(year > 1900 && year <= 2100) {
-            firstweekdayYear(year);
+            firstWeekday = firstweekdayYear(year);
+            printf("Der Wochentag des 1.1 des Jahres %d ist ein %s.\n", year, dayNames[firstWeekday]);
         }
 //---------------------------------------------------------------------------------------------------------------------
         //Aufgabe 5 (Wochentag des Datums)
-        weekdayDate(day, month, year);
+        weekday = weekdayDate(day, month, year);
+        printf("Der %d.%d.%d ist ein %s.\n", day, month, year, dayNames[weekday]);
 
         printf("----------------------------------------");
         printf("\n\nErneute Eingabe? (j/n)");
