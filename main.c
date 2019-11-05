@@ -77,7 +77,7 @@ void day_Number(unsigned day, unsigned month, unsigned year) {
 
 //Methode zur Berechnung des Wochentages des 1.1 des jeweiligen Jahres. (AUFGABE 4)
 unsigned int firstweekdayYear(unsigned year) {
-    unsigned int i, rest, weekday = 1; // 1 = Dienstag
+    int i, rest, weekday = 1; // 1 = Dienstag
 
     for(i = 1901; i <= year; i++) {
         weekday++;
@@ -91,6 +91,9 @@ unsigned int firstweekdayYear(unsigned year) {
         }
     }
     weekday = weekday - 1;
+    if(weekday < 0) {
+        weekday = 6;
+    }
     printf("Der Wochentag des 1.1 des Jahres %d ist ein %s.\n", year, dayNames[weekday]);
 }
 
