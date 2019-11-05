@@ -17,7 +17,7 @@ bool is_leapYear(unsigned year) {
         return false;
     }
 }
-//Funktion die testet, ob das eigegebene Datum korrekt ist. (AUFGABE 2)
+//Methode die testet, ob das eingegebene Datum korrekt ist. (AUFGABE 2)
 bool validDate;
 void is_correctDate(unsigned day, unsigned month, unsigned year) {
     if(month >= 1 && month <= 12) {
@@ -98,6 +98,10 @@ void firstweekdayYear(unsigned year) {
     }
 }
 
+//Funktion/Methode zur Berechnung des Wochentages des eingegebenen Datums.
+void weekdayDate(unsigned day, unsigned month, unsigned year) {
+
+    }
 
 
 int main() {
@@ -133,12 +137,12 @@ int main() {
             else {
                 printf("%d ist kein Schaltjahr.", year);
             }
+
             //Aufgabe 2 (Korrektes Datum)
             is_correctDate(day, month, year);
             if(validDate == true) {
                 printf("\nIhr eingegebenes Datum ist gueltig.");
             }
-
         } while (validDate == false);
 
         //Aufgabe 3 (Nummer des Tages im Jahr)
