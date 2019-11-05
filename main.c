@@ -1,5 +1,4 @@
-/*TODO: 2.Ermitteln Sie den Wochentag des gegebenen Tags.
-        3.Zusatzaufgabe: Berechnen Sie, in welcher Kalenderwoche der gegebene Tag ist (nach ISO 8601).*/
+/*TODO: 3.Zusatzaufgabe: Berechnen Sie, in welcher Kalenderwoche der gegebene Tag ist (nach ISO 8601).*/
 
 #define _CRT_SECURE_NO_WARNINGS 1
 
@@ -68,7 +67,7 @@ void day_Number(unsigned day, unsigned month, unsigned year) {
 }
 
 //Methode zur Berechnung des Wochentages des 1.1 des jeweiligen Jahres. (AUFGABE 4)
-void firstweekdayYear(unsigned year) {
+unsigned int firstweekdayYear(unsigned year) {
     unsigned int i, rest, weekday = 1; // 1 = Dienstag
     for(i = 1901; i <= year; i++) {
         weekday++;
@@ -101,8 +100,16 @@ void firstweekdayYear(unsigned year) {
 
 //Funktion/Methode zur Berechnung des Wochentages des eingegebenen Datums.
 void weekdayDate(unsigned day, unsigned month, unsigned year) {
-    
+    char dayNames[] [10] = {"Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"};
+    int weekday;
 
+    weekday = (day  + ((153 * (month + 12 * ((14 - month) / 12) - 3) + 2) / 5)
+            + (365 * (year + 4800 - ((14 - month) / 12)))
+            + ((year + 4800 - ((14 - month) / 12)) / 4)
+            - ((year + 4800 - ((14 - month) / 12)) / 100)
+            + ((year + 4800 - ((14 - month) / 12)) / 400)
+            - 32045) % 7;
+    printf("Der %d.%d.%d ist ein %s.\n", day, month, year, dayNames[weekday]);
 }
 
 
@@ -154,6 +161,8 @@ int main() {
         if(year > 1900 && year <= 2100) {
             firstweekdayYear(year);
         }
+        //Aufgabe 5 (Wochentag des Datums)
+        weekdayDate(day, month, year);
 
         printf("----------------------------------------");
         printf("\n\nErneute Eingabe? (j/n)");
