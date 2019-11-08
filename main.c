@@ -8,7 +8,7 @@
 
 //Benötigte Arrays
 char dayNames[] [11] = {"Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"};
-unsigned monthLength[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 21};
+unsigned monthLength[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -95,7 +95,6 @@ unsigned int firstweekdayYear(unsigned year) {
         firstWeekday = 6;
     }
     return(firstWeekday);
-    //printf("Der Wochentag des 1.1 des Jahres %d ist ein %s.\n", year, dayNames[weekday]);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -114,22 +113,30 @@ unsigned int weekdayDate(unsigned day, unsigned month, unsigned year) {
     return(weekday);
 }
 
+//---------------------------------------------------------------------------------------------------------------------
+/*
 //Funktion zur Berechnung der Kalenderwoche (ZUSATZAUFGABE)
-/*void calenderWeek(unsigned day, unsigned month, unsigned year) {
-    unsigned int startDay, i, calenderWeek;
+unsigned int calenderWeek(unsigned day, unsigned month, unsigned year) {
+    int calenderWeek;
 
-    startDay = firstweekdayYear(year);
-    if(startDay >= 3) {
-        for(i = 1; i <= startDay; i++) {
-            calenderWeek++;
+    calenderWeek = day_Number(day, month, year) / 7;
+
+    if(calenderWeek == 0) {
+        if (calenderWeek == 0 && weekdayDate(1, 1, year - 1) == 3 && weekdayDate(31, 12, year - 1) == 3
+            || is_leapYear(year - 1) == true && weekdayDate(1, 1, year - 1) == 2 && weekdayDate(31, 12, year - 1) == 3
+            ||
+            is_leapYear(year - 1) == true && weekdayDate(1, 1, year - 1) == 3 && weekdayDate(31, 12, year - 1) == 4) {
+            calenderWeek = 53;
+        }
+        else {
+            calenderWeek = 52;
         }
     }
-    else {
 
-    }
+    return(calenderWeek);
+}
+*/
 
-
-}*/
 
 //Start der Main-Funktion
 int main() {
@@ -137,7 +144,7 @@ int main() {
     //Benötigte Variablen
     unsigned day, month, year;
     char response;
-    unsigned int dayNum, firstWeekday, weekday;
+    unsigned int dayNum, firstWeekday, weekday, week;
 
     printf("\n\nKalender-Programm\n");
     printf("----------------------------------------");
@@ -189,6 +196,13 @@ int main() {
         //Aufgabe 5 (Wochentag des Datums)
         weekday = weekdayDate(day, month, year);
         printf("Der %d.%d.%d ist ein %s.\n", day, month, year, dayNames[weekday]);
+
+//---------------------------------------------------------------------------------------------------------------------
+       /* //Zusatzaufgabe (Kalenderwoche)
+        week = calenderWeek(day, month, year);
+        printf("Der %d.%d befindet sich in der %d-ten Kalenderwoche des Jahres %d.\n", day, month, week, year);
+        */
+//---------------------------------------------------------------------------------------------------------------------
 
         printf("----------------------------------------");
         printf("\n\nErneute Eingabe? (j/n)");
