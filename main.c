@@ -1,8 +1,8 @@
-/*TODO: 3.Zusatzaufgabe: Berechnen Sie, in welcher Kalenderwoche der gegebene Tag ist (nach ISO 8601).*/
+/*Kalender-Programm*/
 
 #define _CRT_SECURE_NO_WARNINGS 1
+
 //Benötigte Bibliotheken
-#include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -114,29 +114,33 @@ unsigned int weekdayDate(unsigned day, unsigned month, unsigned year) {
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/*
+
 //Funktion zur Berechnung der Kalenderwoche (ZUSATZAUFGABE)
-unsigned int calenderWeek(unsigned day, unsigned month, unsigned year) {
-    int calenderWeek;
+unsigned getCalenderWeek(unsigned day, unsigned month, unsigned year) {
+    unsigned daysOfTheYear = day_Number(day, month, year);
+    unsigned weekdayOfFirstJanuary = weekdayDate(1, 1, year);
 
-    calenderWeek = day_Number(day, month, year) / 7;
-
-    if(calenderWeek == 0) {
-        if (calenderWeek == 0 && weekdayDate(1, 1, year - 1) == 3 && weekdayDate(31, 12, year - 1) == 3
-            || is_leapYear(year - 1) == true && weekdayDate(1, 1, year - 1) == 2 && weekdayDate(31, 12, year - 1) == 3
-            ||
-            is_leapYear(year - 1) == true && weekdayDate(1, 1, year - 1) == 3 && weekdayDate(31, 12, year - 1) == 4) {
-            calenderWeek = 53;
-        }
-        else {
-            calenderWeek = 52;
-        }
+    if(weekdayOfFirstJanuary >= 5) {
+        weekdayOfFirstJanuary = weekdayOfFirstJanuary - 7;
+    }
+    if((daysOfTheYear + weekdayOfFirstJanuary) <= 1) {
+        return getCalenderWeek(31, 12, year - 1);
     }
 
-    return(calenderWeek);
-}
-*/
+    unsigned calendarWeek = ((daysOfTheYear + weekdayOfFirstJanuary + 5) / 7);
 
+    if(calendarWeek == 53) {
+        if ((weekdayOfFirstJanuary != 4)
+            && (weekdayOfFirstJanuary != -3)
+            && ((weekdayOfFirstJanuary != 3) && is_leapYear(year))
+            && ((weekdayOfFirstJanuary != -4) && is_leapYear(year)))
+            calendarWeek = 1;
+
+    }
+
+    return calendarWeek;
+}
+//---------------------------------------------------------------------------------------------------------------------
 
 //Start der Main-Funktion
 int main() {
@@ -144,7 +148,6 @@ int main() {
     //Benötigte Variablen
     unsigned day, month, year;
     char response;
-    unsigned int dayNum, firstWeekday, weekday, week;
 
     printf("\n\nKalender-Programm\n");
     printf("----------------------------------------");
@@ -184,24 +187,18 @@ int main() {
         } while (validDate == false);
 //---------------------------------------------------------------------------------------------------------------------
         //Aufgabe 3 (Nummer des Tages im Jahr)
-        dayNum = day_Number(day, month, year);
-        printf("\nDer %d.%d ist der %d-te Tag im Jahr %d.\n", day, month, dayNum, year);
+        printf("\nDer %d.%d ist der %d-te Tag im Jahr %d.\n", day, month, day_Number(day, month, year), year);
 //---------------------------------------------------------------------------------------------------------------------
         //Aufgabe 4 (Erster Wochentag des Jahres)
         if(year > 1900 && year <= 2100) {
-            firstWeekday = firstweekdayYear(year);
-            printf("Der Wochentag des 1.1 des Jahres %d ist ein %s.\n", year, dayNames[firstWeekday]);
+            printf("Der Wochentag des 1.1 des Jahres %d: %s\n", year, dayNames[firstweekdayYear(year)]);
         }
 //---------------------------------------------------------------------------------------------------------------------
         //Aufgabe 5 (Wochentag des Datums)
-        weekday = weekdayDate(day, month, year);
-        printf("Der %d.%d.%d ist ein %s.\n", day, month, year, dayNames[weekday]);
-
+        printf("Wochentag des %d.%d.%d: %s\n", day, month, year, dayNames[weekdayDate(day, month, year)]);
 //---------------------------------------------------------------------------------------------------------------------
-       /* //Zusatzaufgabe (Kalenderwoche)
-        week = calenderWeek(day, month, year);
-        printf("Der %d.%d befindet sich in der %d-ten Kalenderwoche des Jahres %d.\n", day, month, week, year);
-        */
+        //Zusatzaufgabe (Kalenderwoche)
+        printf("Kalenderwoche des %d.%d.%d: %d\n", day, month, year, getCalenderWeek(day, month, year));
 //---------------------------------------------------------------------------------------------------------------------
 
         printf("----------------------------------------");
@@ -210,5 +207,5 @@ int main() {
         scanf("%c", &response);
         while(getchar() != '\n');
     } while(response == 'j' || response == 'J');
-
+    printf("Kalender beendet!\n");
 }
